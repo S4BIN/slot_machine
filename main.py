@@ -107,6 +107,24 @@ def get_bet():
 
     return amount
 
+def gamble(winnings):
+    print("You have the option to gamble your winnings for a chance to double them!")
+    print("Choose '1' to gamble or '2' to collect your current winnings.")
+    while True:
+        choice = input("Enter your choice (1 or 2): ")
+        if choice == '1':
+            gamble_result = random.choice([True, False])
+            if gamble_result:
+                print("Congratulations! You won the gamble!")
+                return winnings * 2
+            else:
+                print("Sorry, you lost the gamble!")
+                return 0
+        elif choice == '2':
+            return winnings
+        else:
+            print("Invalid choice. Please enter '1' to gamble or '2' to collect your winnings.")
+
 def spin(balance):
     lines = get_number_of_lines()
     while True:
@@ -124,6 +142,10 @@ def spin(balance):
     winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
     print(f"You won ${winnings}.")
     print(f"You won on lines:", *winning_lines)
+
+    if winnings > 0:
+        balance += gamble(winnings)
+
     return winnings - total_bet
 
 def main():
